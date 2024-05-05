@@ -1,0 +1,52 @@
+services:
+  frontend:
+    build: ./PetAdoptionFrontend
+    depends_on:
+      - backend
+    ports:
+      - '3000:3000'
+    environment:
+      AUTH0_SECRET: "Ac}K0c,5^iaLv[Y{kf_/.jPh}PD1~5"
+      AUTH0_BASE_URL: "http://localhost:3000"
+      AUTH0_ISSUER_BASE_URL: 'https://dev-sboihizsdicd4x3f.us.auth0.com'
+      AUTH0_CLIENT_ID: 'I5QCOo7z8L754Olujcjznqt0SsJpATdJ'
+      AUTH0_CLIENT_SECRET: 'JJSxuXrpvxnBlBJ2STKWKO2cSssmKyg8UZRkPQhHEfEPeUeU6bAY5RQhdYx3Lqmd'
+      BACKEND_HOST: 'backend:8080'
+    volumes:
+      - ./PetAdoptionFrontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  backend:
+    build: ./PetAdoptionBackend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '8080:8080'
+    environment:
+      DATABASE_URL: "postgresql://prisma:prisma@postgres:5432/postgres"
+      AUTH0_AUDIENCE: 'http://localhost:8080'
+      AUTH0_ISSUER_BASE_URL: 'https://dev-sboihizsdicd4x3f.us.auth0.com/'
+      HOST_PORT: 8080
+    volumes:
+      - ./PetAdoptionBackend:/app
+      - /app/node_modules
+    command: node --require ts-node/register src/index.ts
+
+  postgres:
+    image: postgres:10.3
+    restart: always
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres: ~

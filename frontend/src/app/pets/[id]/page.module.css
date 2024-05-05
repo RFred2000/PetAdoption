@@ -1,0 +1,35 @@
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.petDetail {
+    margin: 30px;
+}
+
+.shelterDetail {
+    margin: 30px;
+}
+
+.backButtonContainer {
+    margin: 30px;
+    padding: 10px;
+    width: 50px;
+}
+
+.backButtonContainer:hover {
+    border: 1px solid black;
+}
+
+.backButtonLink {
+    text-decoration: none;
+    color: black;
+}
+
+.alreadyFavorited {
+
+}
+
+.favoriteButton {
+    
+}

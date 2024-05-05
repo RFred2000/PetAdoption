@@ -1,0 +1,29 @@
+.signupForm {
+    display: flex;
+    flex-direction: row;
+}
+
+.formLabelColumn {
+    padding: 20px;
+}
+
+.formInputColumn {
+    padding: 20px;
+}
+
+.formLabel {
+    margin: 20px 0px;
+}
+
+.formInput {
+    margin: 20px 0px;
+}
+
+.formElem label {
+    margin: 30px 0px;
+}
+
+.submitButton {
+    margin-top: 10px;
+    margin-left: 20px;
+}

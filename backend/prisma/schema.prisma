@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AnimalPost {
+  id          Int         @id @default(autoincrement())
+  imageName   String      @default("CatPicture.jpg")
+  species     String      @default("")
+  name        String      @default("")
+  breed       String      @default("")
+  color       String      @default("")
+  shelter     Shelter     @relation(fields: [shelterId], references: [id])
+  shelterId   Int         @default(1)
+  favorites   Favorite[]
+}
+
+model Shelter {
+  id        Int           @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  animals   AnimalPost[]
+}
+
+model Favorite {
+  id      Int           @id @default(autoincrement())
+  userId  String
+  petId   Int
+  pet     AnimalPost    @relation(fields: [petId], references: [id])
+}
